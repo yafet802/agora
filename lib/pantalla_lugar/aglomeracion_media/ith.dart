@@ -78,7 +78,7 @@ class _LugarITHState extends State<LugarITH> {
                                 ),
                                 //Aglomeracion Actual
                                 Padding(padding: EdgeInsets.only(top: 21.0),
-                                  child: AglomeracionActual(aglomeracionTipo: 'AglomeracionAlta')
+                                  child: AglomeracionActual(aglomeracionTipo: 'AglomeracionMedia')
                                 ),
                               ],
                             ),

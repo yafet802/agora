@@ -1,3 +1,6 @@
+import 'package:agora/pantalla_lugar/aglomeracion_media/ith.dart';
+import 'package:agora/reportar_solicitar/reportar_aglomeracion/reportar_aglomeracion.dart';
+import 'package:agora/reportar_solicitar/solicitar_reporte/solicitar_reporte.dart';
 import 'package:flutter/material.dart';
 
 class OverlayMenu extends StatelessWidget {
@@ -22,7 +25,7 @@ class OverlayMenu extends StatelessWidget {
                             //Boton Reportar Aglomeracion
                             Padding(padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 15.0), child: Container(width: 295.0, height: 33.0,
                                 child: FilledButton(
-                                  onPressed: () {},
+                                  onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ReportarAglomeracion()));},
                                   style: ButtonStyle(
                                     shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius:BorderRadius.circular(50.0))),
                                     side: MaterialStatePropertyAll<BorderSide>(BorderSide(color: Colors.transparent)),
@@ -85,7 +88,7 @@ class OverlayMenu extends StatelessWidget {
                             //Bonton Solicitar Reporte
                             Padding(padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0), child: Container(width: 295.0, height: 33.0,
                                 child: FilledButton(
-                                  onPressed: () {},
+                                  onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => SolicitarReporte()));},
                                   style: ButtonStyle(
                                     shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius:BorderRadius.circular(50.0))),
                                     side: MaterialStatePropertyAll<BorderSide>(BorderSide(color: Colors.transparent)),
@@ -148,7 +151,7 @@ class OverlayMenu extends StatelessWidget {
                             //Boton Buscar Aglomeracion
                             Padding(padding: EdgeInsets.only(top: 15.0), child: Container(width: 295.0, height: 33.0,
                                 child: FilledButton(
-                                  onPressed: () {},
+                                  onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => LugarITH()));},
                                   style: ButtonStyle(
                                     shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius:BorderRadius.circular(50.0))),
                                     side: MaterialStatePropertyAll<BorderSide>(BorderSide(color: Colors.transparent)),

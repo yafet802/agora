@@ -1,3 +1,4 @@
+import 'package:agora/sugerencias/sugerencias.dart';
 import 'package:flutter/material.dart';
 
 class TabsAgora extends StatelessWidget {
@@ -231,7 +232,7 @@ class TabsAgora extends StatelessWidget {
                         //Boton Sugerir Cambio
                         Padding(padding: EdgeInsets.only(top: 15.0), child: Container(width: 295.0, height: 33.0,
                                 child: FilledButton(
-                                  onPressed: () {},
+                                  onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Sugerencias()));},
                                   style: ButtonStyle(
                                     shape: MaterialStatePropertyAll<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius:BorderRadius.circular(50.0))),
                                     side: MaterialStatePropertyAll<BorderSide>(BorderSide(color: Colors.transparent)),
