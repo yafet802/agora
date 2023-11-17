@@ -86,7 +86,7 @@ class AglomeracionActual extends StatelessWidget {
           )
         ),
       );
-    } else if (aglomeracionTipo == 'Evento Proximo') { //Recuadro Aglomeracion Actual Evento Proximo
+    } else if (aglomeracionTipo == 'EventoProximo') { //Recuadro Aglomeracion Actual Evento Proximo
       container = Container(width: 238.0, height: 56.0,
         decoration: ShapeDecoration(color: Color.fromRGBO(0, 133, 255, 1).withOpacity(0.2), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17.0)), shadows: [BoxShadow(color: Color.fromRGBO(0, 133, 255, 1).withOpacity(0.1), blurRadius: 20, offset: Offset(0, 0), spreadRadius: 0,)]),
         child: const Center(

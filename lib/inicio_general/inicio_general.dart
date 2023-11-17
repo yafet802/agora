@@ -1,9 +1,7 @@
-import 'package:agora/inicio_general/boton_filtrar_mapa.dart';
-import 'package:agora/inicio_general/boton_menu.dart';
-import 'package:agora/inicio_general/drawers/drawer_menu.dart';
-import 'package:agora/overlays/overlay_filtro/overlay_filtro.dart';
-import 'package:agora/overlays/overlay_menu/overlay_menu.dart';
-import 'package:agora/overlays/overlay_usuario/overlay_usuario.dart';
+import 'package:agora/buscar_lugar/buscar_lugar.dart';
+import 'package:agora/inicio_general/boton_inicio.dart';
+import 'package:agora/inicio_general/marcador_lugar.dart';
+import 'package:agora/overlay/overlay_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -12,26 +10,19 @@ const MAPBOX_ACCES_TOKEN = 'pk.eyJ1IjoieWFmZXQ4MDIiLCJhIjoiY2xvYms4cnRmMG15MzJqc
 
 final myPosition = LatLng(29.096722, -110.992343);
 
-class InicioMapa extends StatelessWidget {
-  const InicioMapa({super.key});
+class InicioMapa extends StatefulWidget {
+
+  @override
+  State<InicioMapa> createState() => _InicioMapaState();
+}
+
+class _InicioMapaState extends State<InicioMapa> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Center(
-        child:  Material(
-          borderRadius: BorderRadius.circular(15.0),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: OverlayMenu(),
-        )
-      ),
-      endDrawer: Center(
-        child:  Material(
-          borderRadius: BorderRadius.circular(15.0),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: OverlayFiltro(),
-        )
-      ),
+      drawer: Center(child: Material(clipBehavior: Clip.antiAliasWithSaveLayer, borderRadius: BorderRadius.circular(15.0), child: OverlayMenu())),
+      endDrawer: BuscarLugar(),
       body: Stack(
         children: [
           FlutterMap(
@@ -44,120 +35,266 @@ class InicioMapa extends StatelessWidget {
             nonRotatedChildren: [
               TileLayer(
                 urlTemplate: 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-                additionalOptions: {
+                additionalOptions: const {
                   'accessToken': MAPBOX_ACCES_TOKEN,
                   'id': 'mapbox/streets-v12',
                 },
-              )
+              ),
+              //Marcadores de Lugares 
+              MarkerLayer(
+                markers: [
+                  //Coppel Camino del Seri
+                  Marker(point: LatLng(29.062475, -110.990109), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'Coppel Camino del Seri', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/CoppelCaminoDelSeri.png')));
+                    }
+                  ),
+                  //Hospital General
+                  Marker(point: LatLng(29.110245, -110.951004), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'Hospital General', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/HospitalGeneral.png')));
+                    }
+                  ),
+                  //CUM (Centro de Usos Multiples)
+                  Marker(point: LatLng(29.108374, -110.993310), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'CUM (Centro de Usos Multiples)', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/CUM(CentroDeUsosMultiples).png')));
+                    }
+                  ),
+                  //AutoZone Refacciones
+                  Marker(point: LatLng(29.110527, -111.023657), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'AutoZone Refacciones', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/AutoZoneRefacciones.png')));
+                    }
+                  ),
+                  //Secretaria de Relaciones Exteriores
+                  Marker(point: LatLng(29.068538, -110.958673), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'Secretaria de Relaciones Exteriores', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/SecretariaDeRelacionesExteriores.png')));
+                    }
+                  ),
+                  //Cinemex Encinas
+                  Marker(point: LatLng(29.091635, -110.992965), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'Cinemex Encinas', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/CinemexEncinas.png')));
+                    }
+                  ),
+                  //Aeropuerto Internacional
+                  Marker(point: LatLng(29.091227, -111.051162), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'Aeropuerto Internacional', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/AeropuertoInternacional.png')));
+                    }
+                  ),
+                  //McDonalds
+                  Marker(point: LatLng(29.085905, -110.986434), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'McDonalds', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/McDonalds.png')));
+                    }
+                  ),
+                  //Sears
+                  Marker(point: LatLng(29.067352, -110.949985), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'Sears', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/Sears.png')));
+                    }
+                  ),
+                  //Liverpool
+                  Marker(point: LatLng(29.087197, -110.963617), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionBaja.png')), 
+                      nombreLugar: 'Liverpool', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/Liverpool.png')));
+                    }
+                  ),
+                  //Isnstituto Tecnologico de Hermosillo
+                  Marker(point: LatLng(29.098564, -110.997680), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionMedia.png')), 
+                      nombreLugar: 'Isnstituto Tecnologico de Hermosillo', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/ITH(InstitutoTecnologicoDeHermosillo).png')));
+                    }
+                  ),
+                  //Universidad de Sonora
+                  Marker(point: LatLng(29.083130, -110.960355), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionMedia.png')), 
+                      nombreLugar: 'Universidad de Sonora', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/UNI(UniversidadDeSonora).png')));
+                    }
+                  ),
+                  //Soriana Encinas
+                  Marker(point: LatLng(29.092912, -110.992992), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionMedia.png')), 
+                      nombreLugar: 'Soriana Encinas', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/SorianaEncinas.png')));
+                    }
+                  ),
+                  //Cinepolis Hermosillo
+                  Marker(point: LatLng(29.088458, -110.965915), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionMedia.png')), 
+                      nombreLugar: 'Cinepolis Hermosillo', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/CinepolisHermosillo.png')));
+                    }
+                  ),
+                  //Gallerias Mall Sonora
+                  Marker(point: LatLng(29.065759, -110.950952), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionMedia.png')), 
+                      nombreLugar: 'Gallerias Mall Sonora', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/GalleriasMallSonora.png')));
+                    }
+                  ),
+                  //Costco Wholesale
+                  Marker(point: LatLng(29.082676, -110.979643), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionAlta.png')), 
+                      nombreLugar: 'Costco Wholesale', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/CostcoWholesale.png')));
+                    }
+                  ),
+                  //Little Caesars Quiroga
+                  Marker(point: LatLng(29.131509, -111.022956), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionAlta.png')), 
+                      nombreLugar: 'Little Caesars Quiroga', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/LittleCeasarsQuiroga.png')));
+                    }
+                  ),
+                  //CarlsJr
+                  Marker(point: LatLng(29.105298, -110.993857), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionAlta.png')), 
+                      nombreLugar: 'CarlsJr', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/CarlsJr.png')));
+                    }
+                  ),
+                  //Sams Club Hermosillo
+                  Marker(point: LatLng(29.133128, -110.954410), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/aglomeracionAlta.png')), 
+                      nombreLugar: 'Sams Club Hermosillo', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/SamsClub.png')));
+                    }
+                  ),
+                  //La Sauceda
+                  Marker(point: LatLng(29.072224, -110.924015), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/sinReportes.png')), 
+                      nombreLugar: 'La Sauceda', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/LaSauceda.png')));
+                    }
+                  ),
+                  //Oxxo
+                  Marker(point: LatLng(29.121280, -111.034923), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/sinReportes.png')), 
+                      nombreLugar: 'Oxxo', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/Oxxo.png')));
+                    }
+                  ),
+                  //Walmart Boulevard Colosio
+                  Marker(point: LatLng(29.082929, -111.020713), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/sinReportes.png')), 
+                      nombreLugar: 'Walmart Boulevard Colosio', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/WalmartBoulevardColosio.png')));
+                    }
+                  ),
+                  //EventoUno
+                  Marker(point: LatLng(29.076209, -110.981468), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/eventoProximo.png')), 
+                      nombreLugar: 'EventoUno', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/EventoProximo.png')));
+                    }
+                  ),
+                  //EventoDos
+                  Marker(point: LatLng(29.126526, -110.992867), 
+                    builder: (context) {return MarcadorLugar(
+                      iconoImagen: const Image(image: AssetImage('assets/img/iconoAglomeracion/eventoProximo.png')), 
+                      nombreLugar: 'EventoDos', 
+                      imagenLugar: const Image(image: AssetImage('assets/img/lugarImagen/EventoProximo.png')));
+                    }
+                  ),
+                ],
+              ),
             ],
           ),
-                    Positioned(top: 14, left: 14, child: Container(
-              width: 47,
-              height: 47,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                shadows: const [
-                  BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.2),
-                    blurRadius: 10,
-                    offset: Offset(0, 0),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: Material(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                borderRadius: BorderRadius.circular(100),
-                child: Builder(
-                  builder: (context) {
-                    return InkWell(
-                          onTap: () {
-                            Scaffold.of(context).openDrawer();
-                          },
+          SafeArea(
+            child: Stack(
+              children: [
+                Positioned(top: 14, left: 14, 
+                  child: Container(width: 47, height: 47,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      shadows: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)],
+                    ),
+                    child: Material(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: Builder(
+                        builder: (context) {
+                          return InkWell(
+                            onTap: () {
+                              Scaffold.of(context).openDrawer();
+                            },
                           splashColor: Color.fromRGBO(244, 90, 34, 0.274),
-                          child: Center(child: Icon(Icons.menu_rounded, color: Color.fromRGBO(244, 89, 34, 1))));
-                  }
-                )
-              )
+                          child: Center(child: Icon(Icons.menu, color: Color.fromRGBO(244, 90, 34, 1))));
+                        }
+                      )
+                    )
+                  )
+                ),
+                Positioned(top: 14, right: 14, 
+                  child: Container(width: 47, height: 47,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.0),
+                      ),
+                      shadows: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)],
+                    ),
+                    child: Material(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      borderRadius: BorderRadius.circular(50.0),
+                      child: Builder(
+                        builder: (context) {
+                          return InkWell(
+                            onTap: () {
+                              Scaffold.of(context).openEndDrawer();
+                            },
+                          splashColor: Color.fromRGBO(244, 90, 34, 0.274),
+                          child: Center(child: Icon(Icons.search_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
+                        }
+                      )
+                    )
+                  )
+                ),
+              ],
             )
-          ),
-          Positioned(top: 14, right: 14, child: Container(width: 47, height: 47,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                shadows: const [
-                  BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.2),
-                    blurRadius: 10,
-                    offset: Offset(0, 0),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: Material(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                borderRadius: BorderRadius.circular(100),
-                child: Builder(
-                  builder: (context) {
-                    return InkWell(
-                          onTap: () {
-                            Scaffold.of(context).openEndDrawer();
-                          },
-                          splashColor: Color.fromRGBO(244, 90, 34, 0.274),
-                          child: Center(child: Icon(Icons.filter_alt_rounded, color: Color.fromRGBO(244, 89, 34, 1))));
-                  }
-                )
-              )
-            ),
-          ),
-          Positioned(top: 74, right: 14, child: Container(width: 47, height: 47,
-              decoration: ShapeDecoration(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                shadows: const [
-                  BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.2),
-                    blurRadius: 10,
-                    offset: Offset(0, 0),
-                    spreadRadius: 0,
-                  )
-                ],
-              ),
-              child: Material(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                borderRadius: BorderRadius.circular(100),
-                child: InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          isScrollControlled: true,
-                          context: context, 
-                          builder: (context) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Center(
-                                child: Material(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    child: OverlayUsuario(),
-                                  ),
-                              ),
-                            );
-                          }
-                        );
-                      },
-                      child: Image(image: AssetImage('assets/img/hombreperro.png'), fit: BoxFit.cover))
-              )
-            ),
-          ),
+          )
         ],
       ),
     );
