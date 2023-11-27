@@ -6,11 +6,15 @@ class MarcadorLugar extends StatelessWidget {
   final Image iconoImagen;
   final String nombreLugar;
   final Image imagenLugar;
+  final Image imagenLugarDos;
+  final Image imagenLugarTres;
 
   MarcadorLugar({
     required this.iconoImagen, 
     required this.nombreLugar,
     required this.imagenLugar,
+    required this.imagenLugarDos,
+    required this.imagenLugarTres
   });
 
   @override
@@ -62,7 +66,9 @@ class MarcadorLugar extends StatelessWidget {
             builder: (context) {
               return LugarBottomSheet(
                 nombreLugar: nombreLugar, 
-                imagenLugar: imagenLugar, 
+                imagenLugar: imagenLugar,
+                imagenLugarDos: imagenLugarDos,
+                imagenLugarTres: imagenLugarTres, 
                 aglomeracionActual: aglomeracionActual);
             });
         }, child: Image(image: iconoImagen.image, fit: BoxFit.cover))),

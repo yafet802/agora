@@ -42,6 +42,10 @@ dependencies:
   slide_to_act: ^2.0.1
   simple_drawer: ^0.0.11
   rounded_expansion_tile: ^0.0.13
+  flutter_image_slideshow: ^0.1.6
+  action_slider: ^0.7.0
+  icons_plus: ^4.0.0
+  expansion_tile_group: ^1.2.4
 
 dev_dependencies:
   flutter_test:
