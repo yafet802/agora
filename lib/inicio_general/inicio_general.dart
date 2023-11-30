@@ -1,3 +1,4 @@
+import 'package:agora/botones/boton_inicio.dart';
 import 'package:agora/inicio_general/marcador_lugar.dart';
 import 'package:agora/overlays/overlay_cuenta_agora/overlay_menu.dart';
 import 'package:agora/overlays/overlay_lugares_guardados/overlay_lugares_guardados.dart';
@@ -343,8 +344,8 @@ class _InicioMapaState extends State<InicioMapa> {
                             onTap: () {
                               Scaffold.of(context).openDrawer();
                             },
-                          splashColor: Color.fromRGBO(244, 90, 34, 0.274),
-                          child: Center(child: Icon(Icons.menu_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
+                          splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
+                          child: const Center(child: Icon(Icons.menu_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
                         }
                       )
                     )
@@ -368,8 +369,8 @@ class _InicioMapaState extends State<InicioMapa> {
                             onTap: () {
                               Scaffold.of(context).openEndDrawer();
                             },
-                          splashColor: Color.fromRGBO(244, 90, 34, 0.274),
-                          child: Center(child: Icon(Icons.bookmark_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
+                          splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
+                          child: const Center(child: Icon(Icons.bookmark_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
                         }
                       )
                     )

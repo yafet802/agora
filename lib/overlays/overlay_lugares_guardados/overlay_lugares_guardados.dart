@@ -17,18 +17,18 @@ class OverlayLugaresGuardados extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          Positioned(left: 21, top: 174.0,
-            child: Container(width: 331.0, height: 393.0,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              decoration: BoxDecoration(color: Colors.transparent),
+          Positioned(left: 0, top: 174.0,
+            child: Container(width: 365.0, height: 393.0,
+              decoration: const BoxDecoration(color: Colors.transparent),
               child: ListView(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
+                padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 20.0),
                 children: [
                   ExpansionTileGroup(
                     toggleType: ToggleType.expandOnlyCurrent,
                     spaceBetweenItem: 20.0,
                         children: [
-
+                          
                           //Formato Lugar CarlsJr
                           ExpansionTileItem(
                             decoration: BoxDecoration(
@@ -276,7 +276,6 @@ class OverlayLugaresGuardados extends StatelessWidget {
                           ),
                       ]
                   ),
-                  const SizedBox(height: 28.0)
                 ],
               ),             
             )

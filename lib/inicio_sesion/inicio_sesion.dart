@@ -32,7 +32,7 @@ class _InicioSesionState extends State<InicioSesion> {
                     const Image(image: AssetImage('assets/img/fondoAgora.png'), width: double.infinity, height: 373, fit: BoxFit.cover,),
                     Container(width: double.infinity, height: 373,
                       decoration: const BoxDecoration(gradient: LinearGradient(colors: [Colors.black, Color(0x00F89470)], begin: Alignment(0.00, -1.00), end: Alignment(0, 1),),),
-                      child: const Center(child: Image(image: AssetImage('assets/img/LogoAgoraNuevo.png'), width: 240.0, height: 255.89, fit: BoxFit.cover))
+                      child: const Center(child: Image(image: AssetImage('assets/img/LogoAgoraNuevo2.png'), width: 244.0, height: 164.24, fit: BoxFit.cover))
                     ),
                     Padding(padding: const EdgeInsets.only(top: 347.0), child: Container(width: double.infinity, height: 50,
                         decoration: ShapeDecoration(color: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)), shadows: const [BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.098), blurRadius: 20, offset: Offset(0, 4), spreadRadius: 0,)]),

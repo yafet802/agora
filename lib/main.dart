@@ -1,4 +1,5 @@
 import 'package:agora/inicio_general/inicio_general.dart';
+import 'package:agora/inicio_sesion/inicio_sesion.dart';
 import 'package:flutter/material.dart';
 
 void main() {runApp(const MyApp());}
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         useMaterial3: true,
       ),
-      home: InicioMapa(),
+      home: InicioSesion(),
       debugShowCheckedModeBanner: false,
     );
   }
