@@ -1,14 +1,16 @@
-import 'package:agora/botones/boton_inicio.dart';
+import 'package:agora/botones/boton_filtrar.dart';
+import 'package:agora/inicio_general/barra_busqueda.dart';
 import 'package:agora/inicio_general/marcador_lugar.dart';
+import 'package:agora/inicio_general/marcador_usuario.dart';
+import 'package:agora/inicio_general/seleccionar_aglomeracion_mapa.dart';
 import 'package:agora/overlays/overlay_cuenta_agora/overlay_menu.dart';
 import 'package:agora/overlays/overlay_lugares_guardados/overlay_lugares_guardados.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:geolocator/geolocator.dart';
 
 const MAPBOX_ACCES_TOKEN = 'pk.eyJ1IjoieWFmZXQ4MDIiLCJhIjoiY2xvYms4cnRmMG15MzJqcjF6cWhmd2tlcCJ9.EzhJOPV38c6O6RzDTn7JCA';
-
-final myPosition = LatLng(29.096722, -110.992343);
 
 class InicioMapa extends StatefulWidget {
 
@@ -17,6 +19,37 @@ class InicioMapa extends StatefulWidget {
 }
 
 class _InicioMapaState extends State<InicioMapa> {
+
+  LatLng myPosition = LatLng(29.096722, -110.992343);
+
+  bool isDisabled = true;
+  String currentStyle = 'mapbox/streets-v12';
+
+  Future<Position> determinePosition() async {
+    LocationPermission permission;
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    return await Geolocator.getCurrentPosition();
+  }
+
+  void getCurrentPosition() async {
+    Position position = await determinePosition();
+    setState(() {
+      myPosition = LatLng(position.latitude, position.longitude);
+    });
+  }
+
+  void changeMapStyle() {
+    setState(() {
+      if (currentStyle == 'mapbox/streets-v12') {
+        currentStyle = 'mapbox/satellite-streets-v12';
+      } else {
+        currentStyle = 'mapbox/streets-v12';
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +80,21 @@ class _InicioMapaState extends State<InicioMapa> {
             nonRotatedChildren: [
               TileLayer(
                 urlTemplate: 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
-                additionalOptions: const {
+                additionalOptions: {
                   'accessToken': MAPBOX_ACCES_TOKEN,
-                  'id': 'mapbox/streets-v12',
+                  'id': currentStyle,
                 },
               ),
               //Marcadores de Lugares 
               MarkerLayer(
                 markers: [
+                  Marker(point: myPosition,
+                    width: 80.0,
+                    height: 80.0, 
+                    builder: (context) {
+                      return const MarcadorUsuario();
+                    }
+                  ),
                   //Coppel Camino del Seri
                   Marker(point: LatLng(29.062475, -110.990109), 
                     builder: (context) {return MarcadorLugar(
@@ -324,59 +364,150 @@ class _InicioMapaState extends State<InicioMapa> {
             ],
           ),
           SafeArea(
-            child: Stack(
-              children: [
-                Positioned(top: 14, left: 14, 
-                  child: Container(width: 47, height: 47,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      shadows: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)],
+            child: Expanded(
+              child: Stack(
+                children: [
+                  Positioned(top: 14.0, right: 14.0, left: 14.0,
+                    child: BarraBusqueda(
+                      botonUsuario: Container(width: 35.0, height: 35.0,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0),
+                          ),
+                        ),
+                        child: Material(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          borderRadius: BorderRadius.circular(50.0),
+                          child: Builder(
+                            builder: (context) {
+                              return InkWell(
+                                onTap: () {
+                                  Scaffold.of(context).openDrawer();
+                                },
+                              splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
+                              child: const Image(image: AssetImage('assets/img/hombreperro.png'), fit: BoxFit.cover));
+                            }
+                          )
+                        )
+                      )
                     ),
-                    child: Material(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Builder(
-                        builder: (context) {
-                          return InkWell(
-                            onTap: () {
-                              Scaffold.of(context).openDrawer();
-                            },
-                          splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
-                          child: const Center(child: Icon(Icons.menu_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
-                        }
+                  ),
+                  Positioned(top: 74.0, right: 14.0,
+                    child: Container(width: 47.0, height: 47.0,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        shadows: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)],
+                      ),
+                      child: Material(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Builder(
+                          builder: (context) {
+                            return InkWell(
+                              focusColor: Colors.white,
+                              hoverColor: Colors.white,
+                              onTap: () {
+                                Scaffold.of(context).openEndDrawer();
+                              },
+                              splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
+                              child: const Center(child: Icon(Icons.bookmark_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
+                          }
+                        )
+                      )
+                    )
+                  ),
+                  Positioned(bottom: 0.0, left: 0.0, right: 0.0,
+                    child: Container(width: double.infinity, height: 83.0,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)),
+                          boxShadow: [BoxShadow(blurRadius: 20.0, offset: const Offset(0.0, -5.0), color: Colors.black.withOpacity(0.05))]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(padding: const EdgeInsets.only(left: 14.0),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: SeleccionarAglomeracionMapa(
+                                  isDisabled: isDisabled
+                                )
+                              ),
+                            ),
+                            Padding(padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 18.0),
+                              child: BotonFiltrar(
+                                iconoBoton: isDisabled ? const Icon(Icons.filter_alt_rounded) : const Icon(Icons.filter_alt_off_rounded), 
+                                onTap: () {
+                                  setState(() {
+                                    isDisabled = !isDisabled;
+                                  });
+                                }
+                              )
+                            )
+                          ],
+                        ),
+                      ),
+                  ),
+                  Positioned(bottom: 158.0, right: 14.0,
+                    child: Container(width: 47.0, height: 47.0,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        shadows: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)],
+                      ),
+                      child: Material(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Builder(
+                          builder: (context) {
+                            return InkWell(
+                              focusColor: Colors.white,
+                              hoverColor: Colors.white,
+                              onTap: () {
+                                changeMapStyle();
+                              },
+                              splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
+                              child: const Center(child: Icon(Icons.layers_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
+                          }
+                        )
+                      )
+                    )
+                  ),
+                  Positioned(bottom: 97.0, right: 14.0,
+                    child: Container(width: 47.0, height: 47.0,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        shadows: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)],
+                      ),
+                      child: Material(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        borderRadius: BorderRadius.circular(50.0),
+                        child: Builder(
+                          builder: (context) {
+                            return InkWell(
+                              focusColor: Colors.white,
+                              hoverColor: Colors.white,
+                              onTap: () {
+                                determinePosition();
+                              },
+                              splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
+                              child: const Center(child: Icon(Icons.my_location_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
+                          }
+                        )
                       )
                     )
                   )
-                ),
-                Positioned(top: 14, right: 14, 
-                  child: Container(width: 47, height: 47,
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      shadows: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)],
-                    ),
-                    child: Material(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Builder(
-                        builder: (context) {
-                          return InkWell(
-                            onTap: () {
-                              Scaffold.of(context).openEndDrawer();
-                            },
-                          splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
-                          child: const Center(child: Icon(Icons.bookmark_rounded, color: Color.fromRGBO(244, 90, 34, 1))));
-                        }
-                      )
-                    )
-                  )
-                ),
-              ],
+                ],
+              ),
             )
           )
         ],

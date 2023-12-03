@@ -1,14 +1,13 @@
-import 'package:agora/inicio_general/inicio_general.dart';
 import 'package:flutter/material.dart';
 
 class BotonInicio extends StatelessWidget {
   
   final Icon iconoBoton;
-  final GestureTapCallback onTap;
+  final VoidCallback onPressed;
 
   BotonInicio({
     required this.iconoBoton,
-    required this.onTap
+    required this.onPressed
   });
 
   @override
@@ -24,16 +23,10 @@ class BotonInicio extends StatelessWidget {
       child: Material(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         borderRadius: BorderRadius.circular(50.0),
-        child: Builder(
-          builder: (inicioMapa) {
-            return InkWell(
-              onTap: () {
-                onTap;
-              },
+        child: IconButton(
+              onPressed: onPressed,
               splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
-              child: Center(child: Icon(iconoBoton.icon, color: const Color.fromRGBO(244, 90, 34, 1))));
-          }
-        )
+              icon: Center(child: Icon(iconoBoton.icon, color: const Color.fromRGBO(244, 90, 34, 1))))
       )
     );
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:avatar_glow/avatar_glow.dart';
 
 //
 //Archivo de pruebas
@@ -15,26 +15,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Disabled Widget Example'),
-      ),
+      backgroundColor: Color.fromRGBO(225, 227, 228, 1),
       body: Center(
-        child: Container(width: double.infinity, height: 172.0,
-          decoration: const BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
-          child: const Material(clipBehavior: Clip.antiAliasWithSaveLayer, borderRadius: const BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15)), 
-            child: ImageSlideshow(
-              initialPage: 0,
-              indicatorColor: Color.fromRGBO(244, 89, 34, 1),
-              indicatorBackgroundColor: Color.fromRGBO(248, 148, 112, 0.8),
-              indicatorRadius: 5.0,
-              children: [
-                Image(image: AssetImage('assets/img/lugarImagen/AeropuertoInternacional.png'), fit: BoxFit.cover),
-                Image(image: AssetImage('assets/img/lugarImagen/AutoZoneRefacciones.png'), fit: BoxFit.cover),
-                Image(image: AssetImage('assets/img/lugarImagen/CarlsJr.png'), fit: BoxFit.cover),
-              ]
-            )
-          )
-        ),
+        child: AvatarGlow(
+          glowColor: const Color.fromRGBO(244, 90, 34, 1), 
+          endRadius: 50.0,
+          animate: true,
+          repeat: true,
+          duration: const Duration(milliseconds: 2000),
+          child: Container(width: 40.0, height: 40.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            child: Center(
+                child: Container(width: 30.0, height: 30.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.0),
+                    color: const Color.fromRGBO(244, 90, 34, 1)
+                  ),
+                ),
+              ),
+          ),
+        )
       ),
     );
   }
