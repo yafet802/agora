@@ -5,6 +5,9 @@ import 'package:agora/inicio_general/inicio_general.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:flutter/cupertino.dart' as Cupertino;
+import 'package:agora/firebase/firebase_login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:agora/firebase/auth.dart';
 
 class Registro extends StatefulWidget {
   Registro({super.key});
@@ -14,6 +17,8 @@ class Registro extends StatefulWidget {
 }
 
 class _RegistroState extends State<Registro> {
+
+  final AuthService _auth = AuthService();
   
   bool obscureText = true;
 
@@ -74,7 +79,7 @@ class _RegistroState extends State<Registro> {
                   Padding(padding: const EdgeInsets.only(bottom: 15.0), 
                     child: SizedBox(width: 268, height: 48,
                       child: CampoCapturaDato(
-                        nombreControlador: confirmedPasswordController, 
+                        nombreControlador: passwordController, 
                         nombreCampo: 'Contraseña', 
                         obscureText: obscureText
                       )
@@ -104,7 +109,7 @@ class _RegistroState extends State<Registro> {
                             child: Cupertino.CupertinoSwitch(
                               activeColor: const Color.fromRGBO(255, 83, 83, 1), 
                               trackColor: const Color.fromRGBO(61, 191, 0, 1), 
-                              value: obscureText, onChanged: (value) {setState(() {obscureText = value;});})),
+                              value: obscureText, onChanged: (value) {setState(() {obscureText = !obscureText;});})),
                         ),
                         Icon(obscureText ? Icons.visibility_off_rounded : Icons.visibility_rounded, color: const Color.fromRGBO(248, 148, 112, 1), size: 30)
                       ],
@@ -115,7 +120,17 @@ class _RegistroState extends State<Registro> {
                   Padding(padding: const EdgeInsets.only(bottom: 30.0), 
                     child: BotonPrincipal(
                       nombreBoton: 'Registrar', 
-                      onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => InicioMapa()));}
+                      onPressed: () async {
+                          dynamic result = await _auth.registerEmailPassword(LoginUser(email: emailController.text, password: passwordController.text));
+                          if(result.uid == null){
+                            Fluttertoast.showToast(msg: "Algo salio mal al intentar crear cuenta. Verifique si los datos estan correctos");
+                            print("ALGO SALIO MAL");
+                          }else{
+                            Fluttertoast.showToast(msg: "Cuenta creada, intente iniciar sesion");
+                            Navigator.of(context).pop();
+                            print("intente iniciar sesion ahora o algo alv");
+                          }
+                        },
                     )
                   ),
 

@@ -54,7 +54,7 @@ class _InicioMapaState extends State<InicioMapa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Center(
+      drawer: Center(
         child: Material(
           color: Colors.transparent,
           clipBehavior: Clip.none,
@@ -498,6 +498,7 @@ class _InicioMapaState extends State<InicioMapa> {
                               hoverColor: Colors.white,
                               onTap: () {
                                 determinePosition();
+                                getCurrentPosition();
                               },
                               splashColor: const Color.fromRGBO(244, 90, 34, 0.274),
                               child: const Center(child: Icon(Icons.my_location_rounded, color: Color.fromRGBO(244, 90, 34, 1))));

@@ -4,9 +4,13 @@ import 'package:agora/inicio_sesion/inicio_sesion.dart';
 import 'package:agora/overlays/overlay_cuenta_agora/apartado_usuario.dart';
 import 'package:agora/sugerencias/sugerencias.dart';
 import 'package:flutter/material.dart';
+import 'package:agora/firebase/auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class OverlayMenu extends StatelessWidget {
-  const OverlayMenu({super.key});
+  OverlayMenu({super.key});
+
+  final AuthService _auth = AuthService(); 
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +96,11 @@ class OverlayMenu extends StatelessWidget {
                 child: BotonSecundario(
                   nombreBoton: 'Cerrar Sesion', 
                   iconoBoton: const Icon(Icons.meeting_room_rounded), 
-                  onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => InicioSesion()));},
+                  onPressed: () {
+                    _auth.signOut();
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => InicioSesion()));
+                    Fluttertoast.showToast(msg: "Sesion cerrado");
+                  },
                   anchoBoton: 233.0,
                   alturaBoton: 47.0,
                   distanciaIcono: 17.0,

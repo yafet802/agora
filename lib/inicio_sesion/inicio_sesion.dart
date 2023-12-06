@@ -4,6 +4,11 @@ import 'package:agora/inicio_general/inicio_general.dart';
 import 'package:agora/registro/registro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:agora/firebase/auth.dart';
+import 'package:agora/firebase/firebase_login.dart';
+
 
 class InicioSesion extends StatefulWidget {
   InicioSesion({super.key});
@@ -14,10 +19,14 @@ class InicioSesion extends StatefulWidget {
 
 class _InicioSesionState extends State<InicioSesion> {
   
+  final _formKey = GlobalKey<FormState>();
+  
   bool obscureText = true;
   
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -54,25 +63,32 @@ class _InicioSesionState extends State<InicioSesion> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
 
-                  //Campo Nombre de Usuario
-                  Padding(padding: const EdgeInsets.only(bottom: 15.0), 
-                    child: SizedBox(width: 268, height: 48,
-                      child: CampoCapturaDato(
-                        nombreControlador: userController, 
-                        nombreCampo: 'Usuario'
-                      )
-                    ),
-                  ),
+                  Form(
+                    child: Column(
+                      key: _formKey,
+                      children: [
+                        //Campo Nombre de Usuario
+                        Padding(padding: const EdgeInsets.only(bottom: 15.0), 
+                          child: SizedBox(width: 268, height: 48,
+                            child: CampoCapturaDato(
+                              nombreControlador: userController, 
+                              nombreCampo: 'Usuario'
+                            )
+                          ),
+                        ),
 
-                  //Campo Contraseña
-                  Padding(padding: const EdgeInsets.only(bottom: 10.0), 
-                    child: SizedBox(width: 268, height: 48,
-                      child: CampoCapturaDato(
-                        nombreControlador: passwordController, 
-                        nombreCampo: 'Contraseña',
-                        obscureText: obscureText,
-                      )
-                    ),
+                        //Campo Contraseña
+                        Padding(padding: const EdgeInsets.only(bottom: 10.0), 
+                          child: SizedBox(width: 268, height: 48,
+                            child: CampoCapturaDato(
+                              nombreControlador: passwordController, 
+                              nombreCampo: 'Contraseña',
+                              obscureText: obscureText,
+                            )
+                          ),
+                        ),
+                      ],
+                    )
                   ),
 
                   //Boton Olvide la Contraseña y Mostrar Contraseña
@@ -81,7 +97,14 @@ class _InicioSesionState extends State<InicioSesion> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
-                          onPressed: () {}, 
+                          onPressed: () {
+                            if(userController.text.isEmpty){
+                                  Fluttertoast.showToast(msg: "Campos vacios.");
+                                }else{
+                                  Fluttertoast.showToast(msg: "Se envio el correo electronico, cheque su buzon.");
+                                  _auth.resetPassword(email: userController.text);
+                                }
+                          }, 
                           style: const ButtonStyle(
                             splashFactory: NoSplash.splashFactory, 
                             backgroundColor: MaterialStatePropertyAll<Color>(Colors.transparent), 
@@ -97,7 +120,17 @@ class _InicioSesionState extends State<InicioSesion> {
                   Padding(padding: const EdgeInsets.only(bottom: 39.0), 
                     child: BotonPrincipal(
                       nombreBoton: 'Iniciar', 
-                      onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => InicioMapa()));}
+                      onPressed: () async {
+                        dynamic result = await _auth.signInEmailPassword(LoginUser(email: userController.text, password: passwordController.text));
+                          print("Test: ${result.uid}");
+                          if (result.uid == null) {
+                            Fluttertoast.showToast(msg: "Algo salio mal al intentar iniciar session. Verifique si los datos estan correctos");
+                            print("ALGO SALIO MAL");
+                          }else{
+                            Fluttertoast.showToast(msg: "Bienvenido, ${result.uid}");
+                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) =>InicioMapa()));
+                          }
+                      }
                     )
                   ),
 
